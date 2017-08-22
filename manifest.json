@@ -1,0 +1,7 @@
+{
+  "name": "dpa_bouns",
+  "short_name": "dpa_bouns",
+  "description": "Een app waarmee de bouns makkelijk bereknt kan worden",
+  "start_url": "/",
+  "display": "standalone"
+}
