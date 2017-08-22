@@ -1,14 +1,22 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-layout/app-layout.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 <dom-module id="bouns-app">
   <template>
     <style>
        :host {
         display: block;
-        max-width: 600px;
-        margin: auto;
+        font-family: Roboto, Noto, sans-serif;
+      }
+
+      app-toolbar {
+        background-color: var(--paper-red-900);
+        color: white;
+        margin: 20px 0;
       }
 
       paper-slider.red {
@@ -21,15 +29,28 @@
         ;
       }
 
-      #salary-container {
-        max-width: 700px;
+      paper-button.reset {
+        background: var(--paper-red-900);
         width: 100%;
+      }
+
+      paper-button.reset:hover {
+        background: var(--paper-blue-900);
+      }
+
+      #bouns-container {
+        max-width: 700px;
+        width: 90%;
         margin: 0 auto;
       }
     </style>
 
-    <h2>Bereken je salaris</h2>
-    <div id="salary-container">
+    <div id="bouns-container">
+      <app-header>
+        <app-toolbar>
+          <div main-title>Bereken je salaris</div>
+        </app-toolbar>
+      </app-header>
 
       <paper-input value="{{klantUurTarief}}" always-float-label label="Uur tarief van de klant" auto-validate pattern="[0-9]*"
         error-message="numbers only!" type="string" maxlength="3">
@@ -45,14 +66,22 @@
       <paper-input label="Interne tarief" readonly value='[[interneTarief]]'>
         <div slot="prefix">€</div>
       </paper-input>
-      <paper-input label="Bouns" readonly value="{{bouns}}">
+      <paper-input label="Bouns" readonly value="[[bouns]]">
         <div slot="prefix">€</div>
       </paper-input>
 
       <paper-input label="Bruto salaris" readonly value="[[brutoSalary]]">
         <div slot="prefix">€</div>
       </paper-input>
+      </br>
+      </br>
+      </br>
+      <paper-button class="reset" on-click="_reset" role="button">
+        <iron-icon icon="check"></iron-icon>
+        Reset
+      </paper-button>
     </div>
+
 
   </template>
 
@@ -76,8 +105,7 @@
       static get properties() {
         return {
           klantUurTarief: {
-            type: String,
-            value: 0
+            type: String
           },
           selectedBasicSalary: {
             type: Number,
@@ -132,6 +160,10 @@
         if (this.res_bruto >= 0) {
           return this.res_bruto;
         }
+      }
+
+      _reset() {
+        window.location.reload();
       }
     }
 
