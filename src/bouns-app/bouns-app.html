@@ -46,43 +46,41 @@
     </style>
 
     <div id="bouns-container">
+      </br>
       <app-header>
         <app-toolbar>
           <div main-title>Bereken je salaris</div>
         </app-toolbar>
       </app-header>
-
       <paper-input value="{{klantUurTarief}}" always-float-label label="Uur tarief van de klant" auto-validate pattern="[0-9]*"
         error-message="numbers only!" type="string" maxlength="3">
         <div slot="prefix">€</div>
       </paper-input>
-
-      <div>Basic Salary</div>
+      </br>
+      </br>
+      <div>Basis Salaris</div>
       <paper-slider class="red" value='{{selectedBasicSalary}}' min='2000' max='6000' pin snaps max-markers="40" step="100" editable>
       </paper-slider>
       <div>Aantal uren</div>
       <paper-slider class="red" value='{{selectedHours}}' min='0' max='166' editable></paper-slider>
-
+      </br>
       <paper-input label="Interne tarief" readonly value='[[interneTarief]]'>
         <div slot="prefix">€</div>
       </paper-input>
-      <paper-input label="Bouns" readonly value="[[bouns]]">
+      <paper-input class="bruto" label="Bouns" readonly value="[[bouns]]">
         <div slot="prefix">€</div>
       </paper-input>
-
       <paper-input label="Bruto salaris" readonly value="[[brutoSalary]]">
         <div slot="prefix">€</div>
       </paper-input>
-      </br>
       </br>
       </br>
       <paper-button class="reset" on-click="_reset" role="button">
         <iron-icon icon="check"></iron-icon>
         Reset
       </paper-button>
+      </br>
     </div>
-
-
   </template>
 
   <script>
@@ -91,12 +89,6 @@
      * @polymer
      */
     class BounsApp extends Polymer.Element {
-
-      constructor() {
-        super();
-        this.res_interneTarief;
-        this.res_bruto;
-      }
 
       static get is() {
         return 'bouns-app';
@@ -122,16 +114,17 @@
           },
           bouns: {
             type: Number,
-            computed: 'getBouns(klantUurTarief, res_interneTarief, selectedHours)'
+            computed: 'getBouns(klantUurTarief, interneTarief, selectedHours)'
           },
           brutoSalary: {
             type: Number,
-            computed: 'getBrutoSalary(klantUurTarief, selectedBasicSalary, selectedHours)'
+            computed: 'getBrutoSalary(bouns, selectedBasicSalary)'
           },
         }
       }
 
       getInterneTarief(selectedBasicSalary) {
+        let res_interneTarief;
         let basisSalaris = [2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000, 3100, 3200, 3300,
           3400, 3500, 3600, 3700, 3800, 3900, 4000, 4100, 4200, 4300, 4400, 4500, 4600, 4700, 4800, 4900, 5000,
           5100, 5200, 5300, 5400, 5500, 5600, 5700, 5800, 5900, 6000
@@ -140,25 +133,30 @@
           71, 72.5, 74, 75, 76.5, 78, 79.5, 81, 82.5, 84, 90, 91.5, 93, 94.5, 96, 97.5, 99, 100.5, 102,
           103.5, 105, 106.5, 108
         ];
+
         for (var i = 0; i < basisSalaris.length; i++) {
-          if (this.selectedBasicSalary == basisSalaris[i]) {
-            this.res_interneTarief = tarief[i];
+          if (selectedBasicSalary == basisSalaris[i]) {
+            res_interneTarief = tarief[i];
           }
         }
-        return this.res_interneTarief;
+        return res_interneTarief;
       }
 
-      getBouns(klantUurTarief, res_interneTarief, selectedHours) {
-        this.res_bouns = ((klantUurTarief - res_interneTarief) * 0.7) * selectedHours;
-        if (this.res_bouns >= 0) {
-          return this.res_bouns;
+      getBouns(klantUurTarief, interneTarief, selectedHours) {
+        const res_bouns = ((klantUurTarief - interneTarief) * 0.7) * selectedHours;
+        if (res_bouns >= 0) {
+          return res_bouns;
+        } else {
+          return 0;
         }
       }
 
-      getBrutoSalary() {
-        this.res_bruto = this.res_bouns + this.selectedBasicSalary;
-        if (this.res_bruto >= 0) {
-          return this.res_bruto;
+      getBrutoSalary(bouns, selectedBasicSalary) {
+        const res_bruto = bouns + selectedBasicSalary;
+        if (res_bruto >= 0) {
+          return res_bruto;
+        } else {
+          return 0;
         }
       }
 
