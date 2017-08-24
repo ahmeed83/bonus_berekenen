@@ -38,39 +38,39 @@
         background: var(--paper-blue-900);
       }
 
-      #bouns-container {
+      #salary-container {
         max-width: 700px;
         width: 90%;
         margin: 0 auto;
       }
     </style>
 
-    <div id="bouns-container">
+    <div id="salary-container">
       </br>
       <app-header>
         <app-toolbar>
-          <div main-title>Bereken je salaris</div>
+          <div main-title>Bereken je Salaris</div>
         </app-toolbar>
       </app-header>
-      <paper-input value="{{klantUurTarief}}" always-float-label label="Uur tarief van de klant" auto-validate pattern="[0-9]*"
-        error-message="numbers only!" type="string" maxlength="3">
+      <paper-input value="{{clientHourlyRate}}" always-float-label label="Uurtarief van de klant" auto-validate pattern="[0-9]*"
+        error-message="Alleen getallen!" type="string" maxlength="3">
         <div slot="prefix">€</div>
       </paper-input>
       </br>
       </br>
-      <div>Basis Salaris</div>
+      <div>Basissalaris</div>
       <paper-slider class="red" value='{{selectedBasicSalary}}' min='2000' max='6000' pin snaps max-markers="40" step="100" editable>
       </paper-slider>
-      <div>Aantal uren</div>
+      <div>Aantal Uren</div>
       <paper-slider class="red" value='{{selectedHours}}' min='0' max='166' editable></paper-slider>
       </br>
-      <paper-input label="Interne tarief" readonly value='[[interneTarief]]'>
+      <paper-input label="Interne Uurtarief" readonly value='[[InternalRate]]'>
         <div slot="prefix">€</div>
       </paper-input>
-      <paper-input class="bruto" label="Bouns" readonly value="[[bouns]]">
+      <paper-input label="Bouns" readonly value="[[bouns]]">
         <div slot="prefix">€</div>
       </paper-input>
-      <paper-input label="Bruto salaris" readonly value="[[brutoSalary]]">
+      <paper-input label="Bruto Salaris" readonly value="[[grossSalary]]">
         <div slot="prefix">€</div>
       </paper-input>
       </br>
@@ -96,35 +96,35 @@
 
       static get properties() {
         return {
-          klantUurTarief: {
+          clientHourlyRate: {
             type: String
           },
           selectedBasicSalary: {
             type: Number,
             value: 2500,
-            observer: 'getInterneTarief'
+            observer: 'getInternalRate'
           },
           selectedHours: {
             type: Number,
             value: 144
           },
-          interneTarief: {
+          InternalRate: {
             type: Number,
-            computed: 'getInterneTarief(selectedBasicSalary)'
+            computed: 'getInternalRate(selectedBasicSalary)'
           },
           bouns: {
             type: Number,
-            computed: 'getBouns(klantUurTarief, interneTarief, selectedHours)'
+            computed: 'getBouns(clientHourlyRate, InternalRate, selectedHours)'
           },
-          brutoSalary: {
+          grossSalary: {
             type: Number,
-            computed: 'getBrutoSalary(bouns, selectedBasicSalary)'
+            computed: 'getGrossSalary(bouns, selectedBasicSalary)'
           },
         }
       }
 
-      getInterneTarief(selectedBasicSalary) {
-        let res_interneTarief;
+      getInternalRate(selectedBasicSalary) {
+        let res_InternalRate;
         let basisSalaris = [2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000, 3100, 3200, 3300,
           3400, 3500, 3600, 3700, 3800, 3900, 4000, 4100, 4200, 4300, 4400, 4500, 4600, 4700, 4800, 4900, 5000,
           5100, 5200, 5300, 5400, 5500, 5600, 5700, 5800, 5900, 6000
@@ -136,14 +136,14 @@
 
         for (var i = 0; i < basisSalaris.length; i++) {
           if (selectedBasicSalary == basisSalaris[i]) {
-            res_interneTarief = tarief[i];
+            res_InternalRate = tarief[i];
           }
         }
-        return res_interneTarief;
+        return res_InternalRate;
       }
 
-      getBouns(klantUurTarief, interneTarief, selectedHours) {
-        const res_bouns = ((klantUurTarief - interneTarief) * 0.7) * selectedHours;
+      getBouns(clientHourlyRate, InternalRate, selectedHours) {
+        const res_bouns = ((clientHourlyRate - InternalRate) * 0.7) * selectedHours;
         if (res_bouns >= 0) {
           return res_bouns;
         } else {
@@ -151,7 +151,7 @@
         }
       }
 
-      getBrutoSalary(bouns, selectedBasicSalary) {
+      getGrossSalary(bouns, selectedBasicSalary) {
         const res_bruto = bouns + selectedBasicSalary;
         if (res_bruto >= 0) {
           return res_bruto;
