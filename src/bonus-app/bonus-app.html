@@ -200,11 +200,10 @@
 
             _getGrossSalary(bonus, selectedBasicSalary, countLeaseCar) {
                 let res_bruto = bonus + selectedBasicSalary;
-                if (countLeaseCar) {
+                if (!countLeaseCar) {
                     res_bruto = res_bruto + 845;
                 }
                 if (res_bruto >= 0) {
-                    console.log('res_bruto', res_bruto);
                     return Math.round(res_bruto);
                 } else {
                     return 0;
