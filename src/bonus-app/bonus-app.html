@@ -94,7 +94,7 @@
 
             </br>
             <!-- <paper-card> -->
-            <paper-toggle-button class="red">Lease auto</paper-toggle-button>
+            <paper-toggle-button checked='{{countLeaseCar}}' class="red">Lease auto</paper-toggle-button>
             <!-- </paper-card> -->
             </br>
 
@@ -149,8 +149,12 @@
                     },
                     grossSalary: {
                         type: Number,
-                        computed: '_getGrossSalary(bonus, selectedBasicSalary)'
+                        computed: '_getGrossSalary(bonus, selectedBasicSalary, countLeaseCar)'
                     },
+                    countLeaseCar: {
+                        type: Boolean,
+                        observer: '_getGrossSalary'
+                    }
                 }
             }
 
@@ -175,14 +179,11 @@
                 }
 
                 if (selectedHolidayDays == 25 && selectedHours == 40) {
-                    console.log(res_InternalRate);
                     return res_InternalRate;
-                }
-                else {
+                } else {
                     extra_free_hour = (40 - selectedHours) * 0.4;
                     extra_holiday_day = (selectedHolidayDays - 25) * 0.4;
                     res_InternalRate_extra = res_InternalRate + extra_holiday_day + extra_free_hour;
-                    console.log(res_InternalRate_extra);
                     return res_InternalRate_extra;
                 }
             }
@@ -197,9 +198,13 @@
                 }
             }
 
-            _getGrossSalary(bonus, selectedBasicSalary) {
-                const res_bruto = bonus + selectedBasicSalary;
+            _getGrossSalary(bonus, selectedBasicSalary, countLeaseCar) {
+                let res_bruto = bonus + selectedBasicSalary;
+                if (countLeaseCar) {
+                    res_bruto = res_bruto + 845;
+                }
                 if (res_bruto >= 0) {
+                    console.log('res_bruto', res_bruto);
                     return Math.round(res_bruto);
                 } else {
                     return 0;
