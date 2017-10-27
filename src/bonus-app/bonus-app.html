@@ -56,7 +56,7 @@
             #sizing-logo {
                 width: 350px;
                 height: 150px;
-                left: 430px;
+                /* left: 430px; */
             }
         </style>
 
@@ -67,7 +67,8 @@
                 <iron-icon icon="check"></iron-icon>
                 <b>BEREKEN JE SALARIS BIJ DPA GEOS</b>
             </paper-button>
-
+            </br>
+            </br>
             <paper-input value="{{clientHourlyRate}}" always-float-label label="Verwacht uurtarief bij klant" auto-validate pattern="[0-9]*"
                 error-message="Alleen getallen!" type="string" maxlength="3">
                 <div slot="prefix">€</div>
@@ -93,9 +94,10 @@
             </paper-input>
 
             </br>
-            <!-- <paper-card> -->
-            <paper-toggle-button checked='{{countLeaseCar}}' class="red">Lease auto</paper-toggle-button>
-            <!-- </paper-card> -->
+            <div>Lease auto</div>
+            </br>
+            <paper-toggle-button checked='{{countLeaseCar}}' class="red"> &nbsp; &nbsp; &nbsp; ([[messageLeaseCar]])
+            </paper-toggle-button>
             </br>
 
             <paper-input label="Total bruto salaris" readonly value="[[grossSalary]]">
@@ -137,7 +139,7 @@
                     },
                     selectedHolidayDays: {
                         type: Number,
-                        value: 30
+                        value: 27
                     },
                     InternalRate: {
                         type: Number,
@@ -154,6 +156,10 @@
                     countLeaseCar: {
                         type: Boolean,
                         observer: '_getGrossSalary'
+                    },
+                    messageLeaseCar: {
+                        type: String,
+                        computed: '_showMessageLeaseCar(countLeaseCar)'
                     }
                 }
             }
@@ -207,6 +213,14 @@
                     return Math.round(res_bruto);
                 } else {
                     return 0;
+                }
+            }
+
+            _showMessageLeaseCar(countLeaseCar) {
+                if (!countLeaseCar) {
+                    return "Uw leasebudget wordt bij uw salaris opgeteld";
+                } else {
+                    return "Uw leasebudget is 845";
                 }
             }
 
