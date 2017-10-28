@@ -65,7 +65,7 @@
 
             <paper-button disabled class="reset">
                 <iron-icon icon="check"></iron-icon>
-                <b>BEREKEN JE SALARIS BIJ DPA GEOS</b>
+                <b>BEREKEN UW SALARIS BIJ DPA GEOS</b>
             </paper-button>
             </br>
             </br>
@@ -110,6 +110,9 @@
             </paper-button>
             </br>
         </div>
+        <app-location route="{{route}}"></app-location>
+        <app-route route="{{route}}" pattern="/:view" data="{{routeData}}" tail="{{subroute}}"></app-route>
+
     </template>
 
     <script>
