@@ -220,7 +220,6 @@
                 } else {
                     monthlyHours = Math.round(selectedHours * 4.2);
                 }
-                console.log('monthlyHours', monthlyHours);
                 const res_bonus = ((clientHourlyRate - InternalRate) * 0.7) * monthlyHours;
                 if (res_bonus >= 0) {
                     return Math.round(res_bonus);
