@@ -65,6 +65,10 @@
                 height: 100px;
                 /* left: 430px; */
             }
+
+            #messageLeaseCar {
+                font-size: 13px;
+            }
         </style>
 
         <div id="salary-container">
@@ -103,10 +107,9 @@
             </br>
             <div>Lease auto</div>
             </br>
-            </br>
-            <paper-toggle-button checked='{{countLeaseCar}}' class="red"> &nbsp; &nbsp; &nbsp; ([[messageLeaseCar]])
+            <paper-toggle-button checked='{{countLeaseCar}}' class="red">
+                <p id="messageLeaseCar">([[messageLeaseCar]])</p>
             </paper-toggle-button>
-            </br>
             </br>
             <div>Totaal bruto salaris</div>
             <paper-input class="salaris" readonly value="[[grossSalary]]">
