@@ -1,6 +1,4 @@
-# \<dpa_bonus\>
 
-Een app waarmee de bonus makkelijk bereknt kan worden
 
 ## Install the Polymer-CLI
 
